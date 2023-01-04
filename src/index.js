@@ -26,48 +26,45 @@ function onSearchCountries(e) {
       countriesList.innerHTML = '';
       countriesInfo.innerHTML = '';
     });
+}
 
-  //   if (valueInput.length === 0) {
-  //     Notiflix.Notify.failure('Enter country name');
-  //   }
+function onRenderCountriesList(countries) {
+  const countriesCount = countries.length;
 
-  function onRenderCountriesList(countries) {
-    const countriesCount = countries.length;
-
-    const markupCountriesList = countries
-      .map(
-        ({ name: { official }, flags: { svg } }) =>
-          `<li class="country"><img src="${svg}"
+  const markupCountriesList = countries
+    .map(
+      ({ name: { official }, flags: { svg } }) =>
+        `<li class="country"><img src="${svg}"
       alt="Flag of ${official}" />
       <h1>${official}</h1></li>`
-      )
-      .join('');
-    countriesList.innerHTML = markupCountriesList;
+    )
+    .join('');
+  countriesList.innerHTML = markupCountriesList;
 
-    if (countriesCount === 1) {
-      const fullInfoRender = document.querySelector('.country');
-      fullInfoRender.classList.add('fullInfoRender');
+  if (countriesCount === 1) {
+    const fullInfoRender = document.querySelector('.country');
+    fullInfoRender.classList.add('fullInfoRender');
 
-      const countryInfo = countries
-        .map(
-          ({ capital, population, languages }) =>
-            `<p><b>Capital: </b>${capital}</p>
+    const countryInfo = countries
+      .map(
+        ({ capital, population, languages }) =>
+          `<p><b>Capital: </b>${capital}</p>
          <p><b>Population: </b>${population}</p>
          <p><b>Languages: </b>${Object.values(languages)}</p>`
-        )
-        .join('');
-      countriesInfo.innerHTML = countryInfo;
-      return;
-    }
-
-    if (countriesCount > 10) {
-      Notiflix.Notify.info(
-        'Too many matches found. Please enter a more specific name',
-        {
-          timeout: TIMEOUT_NOTIFICATION,
-        }
-      );
-    }
+      )
+      .join('');
+    countriesInfo.innerHTML = countryInfo;
+    return;
   }
   countriesInfo.innerHTML = '';
+  if (countriesCount > 10) {
+    countriesInfo.innerHTML = '';
+    countriesList.innerHTML = '';
+    Notiflix.Notify.warning(
+      'Too many matches found. Please enter a more specific name',
+      {
+        timeout: TIMEOUT_NOTIFICATION,
+      }
+    );
+  }
 }
