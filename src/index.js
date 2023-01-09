@@ -57,6 +57,7 @@ function onRenderCountriesList(countries) {
     return;
   }
   countriesInfo.innerHTML = '';
+
   if (countriesCount > 10) {
     countriesInfo.innerHTML = '';
     countriesList.innerHTML = '';
